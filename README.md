@@ -82,33 +82,65 @@ Certifique-se de:
 
     Verifique a execução em Actions no GitHub.
 
-6. Balanceamento de Carga (Opcional)
+6 -  Objetivo
+Configurar balanceamento de carga com Nginx/HAProxy para distribuir requisições entre múltiplas instâncias de aplicação de forma eficiente.
+   Resultados Alcançados
+   Status: IMPLEMENTADO COM SUCESSO
 
-Se precisar de Nginx como load balancer:
+✅ Nginx instalado e configurado como Load Balancer
+✅ 2 aplicações Node.js rodando simultaneamente (portas 3000/3001)
+✅ Balanceamento Round-Robin funcionando perfeitamente
+✅ Distribuição eficiente de requisições (50/50)
+✅ Configuração upstream otimizada
+✅ Proxy reverso implementado
 
-    Instale e configure o Nginx na VM:
+Arquitetura Implementada:
+Internet/Cliente
+        ↓
+   Nginx (porta 80)
+   Load Balancer
+        ↓
+┌─────────────────────┐
+│    upstream backend │
+├─────────────────────┤
+│ App1 → 127.0.0.1:3000 │
+│ App2 → 127.0.0.1:3001 │
+└─────────────────────┘
 
-sudo apt install nginx
+Configuração Técnica
+Ambiente:
 
-Configure /etc/nginx/sites-available/app:
-nginx
+SO: Ubuntu (AWS EC2)
+Web Server: Nginx 1.x
+Runtime: Node.js 18.x
+Algoritmo: Round-Robin
+Portas: 80 (Load Balancer), 3000/3001 (Apps)
 
-upstream app_servers {
-    server localhost:3000;  # Instância 1
-    server localhost:3001;  # Instância 2
+
+Configuração Nginx:
+upstream backend {
+    server 127.0.0.1:3000;
+    server 127.0.0.1:3001;
 }
+
 server {
     listen 80;
+    server_name _;
+    
     location / {
-        proxy_pass http://app_servers;
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 
-Reinicie o Nginx:
+Aplicações Backend:
 
-    sudo systemctl restart nginx
+App 1: Servidor HTTP Node.js na porta 3000
+App 2: Servidor HTTP Node.js na porta 3001
+Execução: Background com nohup para persistência
 
-    Para problemas de SSH, verifique:
-    bash
+Teste de Balanceamento (10 requisições):
+![image](https://github.com/user-attachments/assets/bf1df6f0-646a-4cd4-bcee-b20a6e45f36f)
 
-ssh -i chave.pem ubuntu@IP_DA_VM
