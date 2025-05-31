@@ -53,9 +53,9 @@ No repositório:
 
     Adicione:
 
-        VM_IP: IP público da VM (ex: ec2-1-2-3-4.compute-1.amazonaws.com)
+        VM_IP: IP público da VM (ec2-1-2-3-4.compute-1.amazonaws.com)
 
-        VM_USER: Usuário da VM (ex: ubuntu)
+        VM_USER: Usuário da VM (ubuntu)
 
         SSH_PRIVATE_KEY: Chave privada da VM (conteúdo do arquivo .pem da AWS).
 
@@ -81,6 +81,12 @@ Certifique-se de:
     git push origin main
 
     Verifique a execução em Actions no GitHub.
+
+   Resultados:
+   ![image](https://github.com/user-attachments/assets/7c5b9d7c-a31f-46c2-8497-afe406c88d46)
+   ![image](https://github.com/user-attachments/assets/0810ff8e-8899-4bb8-ae22-acb9d97301f2)
+   ![image](https://github.com/user-attachments/assets/5f9b4517-b984-4b6f-b351-4ee7ec6bdbbf)
+
 
 6 -  Objetivo
 Configurar balanceamento de carga com Nginx/HAProxy para distribuir requisições entre múltiplas instâncias de aplicação de forma eficiente.
@@ -143,4 +149,23 @@ Execução: Background com nohup para persistência
 
 Teste de Balanceamento (10 requisições):
 ![image](https://github.com/user-attachments/assets/bf1df6f0-646a-4cd4-bcee-b20a6e45f36f)
+
+Resultados dos Testes:
+
+✅ Alternância Perfeita: 100% das requisições alternadas
+✅ Distribuição Equilibrada: 50% para cada instância
+✅ Zero Downtime: Todas as requisições atendidas
+✅ Latência Baixa: Respostas instantâneas
+✅ Alta Disponibilidade: Sistema resiliente
+
+Status dos processos:
+![image](https://github.com/user-attachments/assets/6015b3c8-a060-4646-83db-6fb5ec82d183)
+
+
+Configuração validada:
+![image](https://github.com/user-attachments/assets/0e83efb6-6703-4e66-9bde-47fc541687f3)
+
+
+Teste de carga:
+![image](https://github.com/user-attachments/assets/26b6d815-0d0e-48e5-8a9a-6fe3bff17b5b)
 
